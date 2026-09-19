@@ -70,18 +70,6 @@ cd dist && python3 -m http.server 8000
 Shadowrocket → 配置 → 模块 → 新建模块 → 把文件内容整段粘进去 → 保存。
 适合只想装一次、不想联外网的场景（Mac 上可以 `pbcopy < dist/NoAd-Plus.sgmodule` 走通用剪贴板粘贴）。
 
-**B. 用电脑在局域网里发一个临时 HTTP 服务**
-
-```bash
-cd dist && python3 -m http.server 8000
-# 查本机内网 IP：ipconfig getifaddr en0
-```
-
-然后在小火箭里添加 `http://<你的电脑IP>:8000/NoAd.sgmodule`（注意手机和电脑要在同一个 Wi-Fi）。
-
-**C. 直接复制内容新建本地模块**
-Shadowrocket → 配置 → 模块 → 新建模块 → 把文件内容整段粘进去 → 保存。
-
 ## 三、必做的三项设置（不做的话规则不生效）
 
 1. **开启 HTTPS 解密**
