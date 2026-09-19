@@ -1,5 +1,7 @@
 # NoAd —— Shadowrocket 去广告模块
 
+![自动更新规则](https://github.com/NADYuk0314/shadowrocket-adblock/actions/workflows/update.yml/badge.svg)
+
 把 GitHub 上几个长期维护的去广告模块（blackmatrix7 / app2smile / deezertidal / ddgksf2013 / Maasea / lalifeier …）
 合并、纠错、按需拆分后，产出可以直接导入 Shadowrocket 的模块文件。
 
@@ -37,6 +39,10 @@ B站 那个 proto 脚本改的正好是 `bilibili.app.viewunite.v1.View/View`（
 - 另外两条"不是广告、但可能影响播放"的 B站 规则（`x/resource/ip` 地区探测、gRPC 搜索默认词）也从默认模块里移出，改成了注释备选，见 `src/additions/30-bilibili.conf`。
 
 ## 二、安装
+
+> 本仓库每天北京时间 09:00 会自动抓取上游模块并重建（见 `.github/workflows/update.yml`）：
+> 先跑一遍产物校验，通过且确有变化才提交。小火箭里点模块的「更新」就能拿到最新规则。
+
 
 ### A. 用在线地址（推荐，可自动更新）
 
