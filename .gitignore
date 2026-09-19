@@ -12,3 +12,6 @@ venv/
 # macOS
 .DS_Store
 ._*
+
+# PR 用的上游临时克隆
+.pr/
