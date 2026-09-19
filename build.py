@@ -122,17 +122,33 @@ def sanitize_for_python(pattern: str) -> str:
 
 
 def compile_tolerant(pattern: str):
-    """尝试编译正则；PCRE 专有语法降级后再试。返回 (ok, 说明)。"""
+    """校验正则是否可用，返回 (ok, 提示)。
+
+    分两步：先用 Python re 原样编译；不行再按"PCRE 专有写法 → 等价写法"重试。
+    PCRE 专有构造用**显式检测**给出固定措辞的提示，这样提示文字不依赖本机 Python 版本
+    （3.11+ 原生支持原子组 (?>)，3.9 不支持，否则同一份规则在不同机器上会生成不同报告）。
+    """
+    notes: list[str] = []
+    if "(?>" in pattern:
+        notes.append("含 PCRE 原子组 (?>…)")
+    if re.search(r"\\c[A-Za-z]?", pattern):
+        notes.append("含 \\c 控制字符转义（上游常见笔误，注意确认域名是否写错）")
+
+    def finish(extra: str = "") -> tuple[bool, str]:
+        allnotes = notes + ([extra] if extra else [])
+        return True, ("；".join(allnotes) + "，已按等价写法校验") if allnotes else ""
+
     try:
         re.compile(pattern)
-        return True, ""
+        return finish()
+    except re.error:
+        pass
+
+    try:
+        re.compile(sanitize_for_python(pattern))
     except re.error as e:
-        soft = sanitize_for_python(pattern)
-        try:
-            re.compile(soft)
-            return True, f"含 PCRE 专有语法（{e}），Shadowrocket 引擎可正常处理"
-        except re.error as e2:
-            return False, str(e2)
+        return False, str(e)
+    return finish("" if notes else "含 PCRE 专有写法")
 
 
 def balanced(pattern: str) -> bool:

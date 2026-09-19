@@ -1,6 +1,6 @@
 # 构建报告
 
-构建时间：2026-09-19 12:54:16
+构建时间：2026-09-19 20:56:23
 
 ## NoAd.sgmodule
 
@@ -50,6 +50,10 @@
 - `^https?:\/\/m\.client\.10010\.com\/uniAdmsInterface\/getWelcomeAd…`：reject-200 vs reject → 保留 reject-200
 
 </details>
+
+### 提示 1
+
+- `^https?:\/\/(?>heic|gw)\.alicdn\.com\/tfs\/TB1.+?-\d{4}-\d{4…` 含 PCRE 原子组 (?>…)，已按等价写法校验
 
 去重合并：17 条
 
@@ -103,6 +107,10 @@
 - `^https?:\/\/m\.client\.10010\.com\/uniAdmsInterface\/getWelcomeAd…`：reject-200 vs reject → 保留 reject-200
 
 </details>
+
+### 提示 1
+
+- `^https?:\/\/(?>heic|gw)\.alicdn\.com\/tfs\/TB1.+?-\d{4}-\d{4…` 含 PCRE 原子组 (?>…)，已按等价写法校验
 
 去重合并：17 条
 
