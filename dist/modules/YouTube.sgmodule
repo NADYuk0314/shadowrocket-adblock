@@ -1,0 +1,17 @@
+#!name=NoAd · YouTube 去广告（可选）
+#!desc=拦截 YouTube 贴片/首页广告请求。需要 HTTPS 解密。（构建 2026-09-19）
+#!author=规则聚合自 blackmatrix7 / app2smile / deezertidal / ddgksf2013 / Maasea / lalifeier 等开源项目，由 NoAd 构建脚本合并整理
+#!homepage=https://github.com/blackmatrix7/ios_rule_script
+# 构建日期：2026-09-19　由 build.py 自动生成，请勿直接编辑
+# 使用前请在 Shadowrocket 中开启 HTTPS 解密（安装并信任 CA 证书）
+
+[URL Rewrite]
+(^https?:\/\/[\w\-]+\.googlevideo\.com\/(?!dclk_video_ads).+?)&ctier=L(&.+?),ctier,(.+) $1$2$3 302
+^https?:\/\/[\w\-]+\.googlevideo\.com\/(?!(dclk_video_ads|videoplayback\?)).+&oad - reject-200
+^https?:\/\/(www|s)\.youtube\.com\/api\/stats\/ads - reject-200
+^https?:\/\/(www|s)\.youtube\.com\/(pagead|ptracking) - reject-200
+^https?:\/\/s\.youtube\.com\/api\/stats\/qoe\?adcontext - reject-200
+^https?:\/\/[\w\-]+\.googlevideo\.com\/initplayback.+&oad - reject-200
+
+[MITM]
+hostname = %APPEND% *.googlevideo.com, www.youtube.com, s.youtube.com, -redirector*.googlevideo.com

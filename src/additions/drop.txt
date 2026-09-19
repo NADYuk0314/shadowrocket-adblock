@@ -1,0 +1,32 @@
+# 需要从上游规则中剔除的片段（子串匹配，命中即丢弃整条规则）
+#
+# 上游 AdBlockLite 里这一条的字符类写错了：`[^(apple|10010)]` 不是“排除 10010 相关域名”，
+# 而是“匹配任何不含这些字符的串”，于是像 https://t.snssdk.com/ad/... 这类正常广告路径之外的
+# 请求也可能被替换成 1px 图，属于典型的过宽规则。中国联通的广告端点已在别处精确列出，
+# 这里直接剔除，并在 10-general.conf 增补里给出精确规则。
+^https?:\/\/[^(apple|10010)]+\.(com|cn)\/(a|A)d(s|v)?(\/|\.js)
+
+# 上游把 kfc 的域名写成了 `kfc\.com.\cn`（少了转义、多了通配），PCRE 下会被解释成控制字符 \cn，
+# 既拦不到也说不清，直接剔除并在 10-general.conf 增补里给出正确写法。
+^https?:\/\/res\.kfc\.com.\cn\/advertisement\/
+
+# lal_douyin 引用的抖音脚本已被上游删除（2026-09 实测 404：fmz200/wool_scripts 里已无 douyin.js），
+# 留着只会让 Plus 版每次为一条死链白跑一次脚本加载，直接剔除。
+fmz200/wool_scripts/main/Scripts/douyin/douyin.js
+
+# 抖音的 302 跳转（api*.amemv.com/aweme/v1 -> aweme.snssdk.com/aweme/v1）本来是配合上面那个脚本
+# 做无水印下载用的，与去广告无关；脚本没了之后它只会改变抖音的 API 走向、增加出问题的概率，一并剔除。
+https://aweme.snssdk.com/aweme/v1/
+
+# B站：不是广告，而是 App 的 IP/地区探测接口，拦掉可能影响播放与地区判断
+# （已改写为注释备选，放在 src/additions/30-bilibili.conf）
+^https?:\/\/app\.bilibili\.com\/x\/resource\/ip
+
+# B站：app.bilibili.com 上的 gRPC 调用，普通 reject 杀 gRPC 请求风险大于收益
+^https?:\/\/app\.bilibili\.com\/bilibili\.app\.interface\.v1\.Search\/Default
+
+# B站：AdBlockLite 的"通用"段落里也夹着两条 B站 规则。为了让「主模块完全不碰 B站」这件事
+# 百分之百成立（B站 全部规则统一收进 modules/Bilibili.sgmodule），这里把这两条从通用段落剔除。
+# 注意 drop 是按子串匹配的，末尾带上动作名是为了只命中通用段落里那条、不影响 B站 模块里的同族规则。
+bilibili\.com\/x\/v\d\/splash\/ - reject
+manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/Flash - reject

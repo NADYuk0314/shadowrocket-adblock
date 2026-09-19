@@ -1,0 +1,53 @@
+# 由上游模块汇总的 MITM 域名，build.py 会去重并合并成一行
+# 来源：lal_AdBlockLite.sgmodule
+gab.122.gov.cn, ad.12306.cn, app.58.com, *.58cdn.com.cn, api-new.app.acfun.cn, acs.m.taobao.com, api.alipan.com, member.alipan.com, b2baifanfan.baidu.com, gw.aihuishou.com, list-app-m.i4.cn, cdnmobibank.bankofbeijing.com.cn, cdn-xyk-app.bankofbeijing.com.cn, apps.api.ke.com, res.pizzahut.com.cn, bp-api.bestv.com.cn, bp-image.bestv.com.cn, www.binance.info, www.yingwangtech.net, www.binance.com, app-gw.csdn.net, gw.csdn.net, api.caiyunapp.com, learn.chaoxing.com, ptmpcap.caocaokeji.cn, cap.caocaokeji.cn, *.chelaile.net.cn, cdn.*.chelaileapp.cn, img.meituan.net, api.douban.com, emdcadvertise.eastmoney.com, res.xiaojukeji.com, img-ys011.didistatic.com, pt-starimg.didistatic.com, omgup*.xiaojukeji.com, app.dewu.com, cdn.poizon.com, ap.dongqiudi.com, dxy.com, dq.dxy.cn, elemecdn.com, fuss10.elemecdn.com, www1.elecfans.com, *.pangolin-sdk-toutiao.com, *.pangolin-sdk-toutiao.*, *.pstatp.com, *.pstatp.com.*, *.pglstatp-toutiao.com.*, *.pglstatp-toutiao.com, gurd.snssdk.com, gurd.snssdk.com.*, *default.ixigua.com, gateway-api.dushu365.com, api*.futunn.com, mobile.cebbank.com, yghsh.cebbank.com, v.icbc.com.cn, pv.elife.icbc.com.cn, elife.icbc.com.cn, static.95508.com, mps.95508.com, mbank.grcbank.com, gd.10086.cn, fuwu.nhsa.gov.cn, m5.amap.com, m5-zb.amap.com, oss.amap.com, sns.amap.com, awg.enmonster.com, aag.enmonster.com, gsp.gacmotor.com, gha.ghac.cn, dl*.app.gtja.com, cdn.133.cn, discardrp.umetrip.com, startup.umetrip.com, api.m.jd.com, ichmanrules.ksedt.com, richmanapi.jxedt.com, api.jxedt.com, *.kakamobi.cn, smart.789.image.mucang.cn, jad-api.jin10.com, s.jiediankeji.com, cdn.kuaidi100.com, p.kuaidi100.com, res.kfc.com.cn, www.cmbc.com.cn, rs.creditcard.cmbc.com.cn, flowplus.meituan.net, s3plus.meituan.net, p0.pipi.cn, mapi.mafengwo.cn, capi.mwee.cn, open.taou.com, api.taou.com, track.mm.taou.com, i9.taou.com, v?-api.miaopai.com, mea.meitudata.com, api.mddcloud.com, mob.mddcloud.com, api.mcd.cn, midc.cdn-static.abchina.com.cn, enjoy.cdn-static.abchina.com, 3g.csair.com, lban.spdb.com.cn, wap.spdb.com.cn, image.spdbccc.com.cn, j1.pupuapi.com, pacdn.m.stock.pingan.com, iobs.pingan.com.cn, hcz-member.pingan.com.cn, us.l.qq.com, qde.qunar.com, homefront.qunar.com, client.qunar.com, y.gtimg.cn, fmapp.chinafamilymart.com.cn, qadx.qinlinad.com, mapi.sichuanair.com, ccsp-egmas.sf-express.com, shopic.sf-express.com, mapi.sfbest.com, mcs-mimp-web.sf-express.com, ucmp-static.sf-express.com, ucmp.sf-express.com, sh-gateway.shihuo.cn, static.shihuocdn.cn, api-sams.walmartmobile.cn, api.pinduoduo.com, j5.dfcfw.com, appactive.1234567.com, mp.weixin.qq.com, api.xueqiu.com, xqimg.imedao.com, gw.alicdn.com, heic.alicdn.com, wallet.95516.com, webappcfg.paas.cmbchina.com, mbmodule-openapi.paas.cmbchina.com, az1mbasecc.bas.cmbchina.com, intellicc.bas.cmbchina.com, mbs.boc.cn, mlife.jf365.boc.cn, wap.bank.ecitic.com, imcs.citicbank.com, client.app.coc.10086.cn, wap.js.10086.cn, gx.10086.cn, api.ahmobile.cn, mcmm.caiyun.feixin.10086.cn, middle.yun.139.com, ad.mcloud.139.com, m.client.10010.com, m1.ad.10010.com, res.mall.10010.cn, cloud.189.cn, zt-app.go189.cn, app.10099.com.cn, hdgateway.zto.com, api.izuiyou.com, adapi.izuiyou.com, app.zhuanzhuan.com
+# 来源：d_AdBlock.module
+api.21jingji.com, service.4gtv.tv, app.58.com, pic?.ajkimg.com, gw.alicdn.com, heic.alicdn.com, acs.m.taobao.com, m*.amap.com, api-new.app.acfun.cn, api.bjxkhc.com, issuecdn.baidupcs.com, pan.baidu.com, newclient.map.baidu.com, mime.baidu.com, act.vip.iqiyi.com, intl.iqiyi.com, app.bilibili.com, manga.bilibili.com, channel.beitaichufang.com, iapi.bishijie.com, app.api.ke.com, www.bodivis.com.cn, yxyapi*.drcuiyutao.com, clientaccess.10086.cn, m.client.10010.com, cloud.189.cn, api.chelaile.net.cn, web.chelaile.net.cn, cap.caocaokeji.cn, api.caijingmobile.com, gw.csdn.net, m.ctrip.com, app.poizon.com, api.douban.com, rtbapi.douyucdn.cn, e.dangdang.com, daoyu.sdo.com, maicai.api.ddxq.mobi, mobileapi-v6.elong.com, i.ys7.com, www.flyertea.com, dsa-mfp.fengshows.cn, api.feng.com, *-release.wuta-cam.com, www.youtube.com, s.youtube.com, gateway.shouqiev.com, dl.app.gtja.com, smkmp.96225.com, api.huomao.com, business.msstatic.com, imeclient.openspeech.cn, api.intsig.net, ih2.ireader.com, nnapp.cloudbae.cn:0, ib-soft.net, www.inoreader.com, list-app-m.i4.cn, icc.one, jxd524.github.io, api.m.jd.com, img*.360buyimg.com, api.jxedt.com, *.kakamobi.cn, app-api.jinse.com, ios.wps.cn, *.kingsoft-office-service.com, api.gotokeep.com, api.kkmh.com, 122.14.246.33, 175.102.178.52, api.club.lenovo.cn, api.jr.mi.com, home.mi.com, api.mgzf.com, cdn.moji.com, img.meituan.net, p*.meituan.net, s3plus.meituan.net, flowplus.meituan.net, capi.mwee.cn, mapi.mafengwo.cn, app.mixcapp.com, appconf.mail.163.com, c.m.163.com, client.mail.163.com, interface*.music.163.com, sp.kaola.com, support.you.163.com, p.du.163.com, app-api.niu.com, gfp.veta.naver.com, slapi.oray.net, pss.txffp.com, api.yangkeduo.com, api.pinduoduo.com, mrobot.pconline.com.cn, mrobot.pcauto.com.cn, open.qyer.com, media.qyer.com, api.qbb6.com, mage.if.qidian.com, msspjh.emarbox.com, api.rr.tv, app.relxtech.com, *.uve.weibo.com, weibointl.api.weibo.cn, tqt.weibo.cn, *.k.sohu.com, *.tv.sohu.com, ap*.smzdm.com, gw-passenger.01zhuanche.com, mpcs.suning.com, ccsp-egmas.sf-express.com, consumer.fcbox.com, snailsleep.net, api*.futunn.com, ssl.kohsocialapp.qq.com, 4gimg.map.qq.com, r.inews.qq.com, news.ssp.qq.com, mp.weixin.qq.com, m.tuniu.com, mob.mddcloud.com, img*.10101111cdn.com, msg.umengcloud.com, api.vuevideo.net, app.variflight.com, api.cdmcaac.com, api.vistopia.com.cn, app.wy.guahao.com, thor.weidian.com, api.wallstcn.com, api.xiachufang.com, api.psy-1.com, portal-xunyou.qingcdn.com, api.xueqiu.com, promo.xueqiu.com, 182.92.251.113, 101.201.175.228, www.xiaohongshu.com, app.yinxiang.com, restapi.iyunmai.com, api.yizhibo.com, www.zhihu.com, api.zhihu.com, a.qiumibao.com, *.zhuishushenqi.com, www.zybang.com, api.izuiyou.com, tiku.zhan.com, webboot.zhangyue.com, saad.ms.zhangyue.net
+# 来源：a2s_adsense.sgmodule
+api-access.pangolin-sdk-toutiao.com, is.snssdk.com, mi.gdt.qq.com, open.e.kuaishou.com
+# 来源：d_biliad.module
+app.bilibili.com, api.live.bilibili.com, api.vc.bilibili.com, api.bilibili.com, manga.bilibili.com, grpc.biliapi.net, api.biliapi.net, -broadcast.chat.bilibili.com, -*cdn*.biliapi.net, -*tracker*.biliapi.net
+# 来源：a2s_bilibili.sgmodule
+app.bilibili.com, grpc.biliapi.net
+# 来源：lal_weibo.sgmodule
+*.weibo.cn, *.weibo.com, weibo.com
+# 来源：d_WeiboBlock.sgmodule
+api.weibo.cn, mapi.weibo.com, sdkapp.uve.weibo.com
+# 来源：lal_zhihu.sgmodule
+118.89.204.198, 103.41.167.237, 2402:4e00:1200:ed00:0:9089:6dac:96b6, www.zhihu.com, api.zhihu.com, zhuanlan.zhihu.com, appcloud2.zhihu.com, m-cloud.zhihu.com, 103.41.167.236, 103.41.167.234, 103.41.167.235, 103.41.167.226
+# 来源：d_ZhihuBlock.sgmodule
+www.zhihu.com, api.zhihu.com, zhuanlan.zhihu.com
+# 来源：a2s_zhihu.sgmodule
+api.zhihu.com, www.zhihu.com, appcloud2.zhihu.com
+# 来源：lal_xiaohongshu.sgmodule
+edith.xiaohongshu.com, www.xiaohongshu.com
+# 来源：lal_netease.sgmodule
+interface*.music.163.com
+# 来源：dd_Ximalaya.conf
+*.xima*.*, *.xmcdn.*
+# 来源：a2s_spotify.module
+spclient.wg.spotify.com, *spclient.spotify.com
+# 来源：a2s_qidian.sgmodule
+magev6.if.qidian.com
+# 来源：lal_douyin.sgmodule
+api*.amemv.com, aweme.snssdk.com
+# 来源：lal_amap.sgmodule
+m5.amap.com, m5-zb.amap.com, oss.amap.com, sns.amap.com
+# 来源：lal_cainiao.sgmodule
+cn-acs.m.cainiao.com
+# 来源：lal_smzdm.sgmodule
+app-api.smzdm.com, homepage-api.smzdm.com, haojia-api.smzdm.com, haojia.m.smzdm.com, baike-api.smzdm.com, s-api.smzdm.com, zhiyou.m.smzdm.com
+# 来源：lal_bdmap.sgmodule
+newclient.map.baidu.com, yongche.baidu.com
+# 来源：a2s_tieba.sgmodule
+tiebac.baidu.com
+# 来源：a2s_qqnews.sgmodule
+news.ssp.qq.com, r.inews.qq.com
+# 来源：a2s_baidumap.sgmodule
+newclient.map.baidu.com
+# 来源：d_YouTubeAd.sgmodule
+-redirector*.googlevideo.com, *.googlevideo.com, www.youtube.com, s.youtube.com, youtubei.googleapis.com
+# 来源：lal_youtube.sgmodule
+*.googlevideo.com, youtubei.googleapis.com
+# 来源：a2s_youtube.sgmodule
+youtubei.googleapis.com

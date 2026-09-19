@@ -1,0 +1,95 @@
+# 补充 MITM 域名：上游规则里写了、但上游 MITM 清单里漏掉的域名
+#
+# 这些域名是 build.py 交叉校验出来的：规则里匹配 `https://<域名>/...`，但 MITM 清单里没有它，
+# 结果就是「规则永远不会命中」——HTTPS 没解密，重写根本没机会执行。
+# 这是上游长期存在的一类静默失效，这里逐条补齐。
+#
+# 筛选原则：只补“精确主机名”，不补 `*.xxx.com` 这种大范围通配，避免把无关流量也拉进解密。
+
+# --- 银行 / 生活服务 ---
+image1.ccb.com
+appactive.1234567.com.cn
+wmapi.meituan.com
+img.umetrip.com
+pic.edaijia.cn
+
+# --- 京东 / 阿里系 ---
+bdsp-x.jd.com
+dsp-x.jd.com
+cube.elemecdn.com
+image.suning.cn
+
+# --- 字节 / 资讯 ---
+dsp.toutiao.com
+api.gaoqingdianshi.com
+cdn.dianshihome.com
+app.ddpai.com
+b-api.ins.miaopai.com
+foodie-api.yiruikecorp.com
+cdn.api.fotoable.com
+
+# --- 运营商 / 10086 ---
+h.app.coc.10086.cn
+app.10086.cn
+
+# --- 出行 / 旅游 / 电商 ---
+www.didapinche.com
+wap.ngchina.cn
+mapi.dangdang.com
+www.shihuo.cn
+
+# --- 视频 / 音乐 / 阅读 ---
+iface.iqiyi.com
+www.cntv.cn
+asp.cntv.myalicdn.com
+m.caijing.com.cn
+api.laifeng.com
+qt.qq.com
+vv.video.qq.com
+video.dispatch.tc.qq.com
+mangaapi.manhuaren.com
+api.videozhishi.com
+s1.api.tv.itc.cn
+api.hanju.koudaibaobao.com
+app02.vgtime.com
+overseas.weico.cc
+
+# --- 工具 / 其它 App ---
+richmanrules.ksedt.com
+richmanmain.jxedt.com
+api.mddcloud.com.cn
+mob.mddcloud.com.cn
+dict-mobile.iciba.com
+service.iciba.com
+mobile-pic.cache.iciba.com
+api.m.mi.com
+api-mifit.huami.com
+dili.bdatu.com
+cmsapi.wifi8.com
+agent-count.pconline.com.cn
+api.qiuduoduo.cn
+api.applovefrom.com
+api.catch.gift
+www.binance.net
+www.yingwangtech.com
+www.yingwangtech.info
+
+# --- 故意不补的域名（留下判断依据，便于以后复查）---
+# itunes.apple.com        解密 App Store 流量风险偏高（可能影响下载/更新），不值得为一条广告规则冒险
+# *.byteimg.com           字节图片 CDN，全量解密代价太大
+# *.ott.cibntv.net        同上，且规则本身是「带 sid 参数的 mp4」，用域名级 REJECT 更划算
+# *.musical.ly / *.tiktokv.* / *.snssdk.ly
+#                         已被淘汰的历史域名，现代抖音/TikTok 客户端不会再请求
+# *.jddebug.com           京东调试域名，普通用户不会解析到
+# *.rsscc.com / s*.zdmimg.com / u*.iqiyipic.com
+#                         通配范围大，收益低于解密成本
+
+# --- 补漏 ---
+c.tieba.baidu.com
+tracker-download.oss-cn-beijing.aliyuncs.com
+capis-slb.didapinche.com
+
+# --- 喜马拉雅：上游 MITM 写成 `*.xmcdn.*` / `*.xima*.*`（尾部通配无意义），
+#     build 时已规范化为 `*.xmcdn` / `*.xima*`，但规则用的是 .com 后缀，这里补上真正的域名
+*.xmcdn.com
+*.ximalaya.com

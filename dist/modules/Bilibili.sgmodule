@@ -1,0 +1,24 @@
+#!name=NoAd · 哔哩哔哩（可选）
+#!desc=B站开屏、首页推荐流、搜索默认词、相关推荐、漫画与直播广告。默认不含 proto 改写，避免影响视频详情接口。（构建 2026-09-19）
+#!author=规则聚合自 blackmatrix7 / app2smile / deezertidal / ddgksf2013 / Maasea / lalifeier 等开源项目，由 NoAd 构建脚本合并整理
+#!homepage=https://github.com/blackmatrix7/ios_rule_script
+# 构建日期：2026-09-19　由 build.py 自动生成，请勿直接编辑
+# 使用前请在 Shadowrocket 中开启 HTTPS 解密（安装并信任 CA 证书）
+
+[URL Rewrite]
+^https?:\/\/app\.bilibili\.com\/x\/resource\/top\/activity - reject-dict
+^https://app.bilibili.com/x/v2/splash/show - reject-dict
+^https://app.bilibili.com/x/v2/search/defaultwords - reject-dict
+^https?:\/\/api\.bilibili\.com\/x\/vip\/ads\/material\/report - reject-dict
+^https://api.bilibili.com/pgc/season/player/cards - reject-dict
+^https?:\/\/api\.vc\.bilibili\.com\/search_svr\/v\d\/Search\/recommend_words - reject
+^https?:\/\/api\.vc\.bilibili\.com\/topic_svr\/v1\/topic_svr - reject-dict
+^https?:\/\/api\.bilibili\.com\/pgc\/season\/app\/related\/recommend\? - reject-dict
+^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/(Flash|ListFlash) - reject-dict
+^https?:\/\/app\.bilibili\.com\/x\/v2\/splash\/ - reject-dict
+
+[Script]
+bilibili = type=http-response,pattern=^https:\/\/app\.bilibili\.com\/x\/(v2\/(splash\/(list|show)|feed\/index\?)|resource\/show\/tab\/v2),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/app2smile/rules/master/js/bilibili-json.js,script-update-interval=0
+
+[MITM]
+hostname = %APPEND% app.bilibili.com, api.bilibili.com, api.vc.bilibili.com, manga.bilibili.com

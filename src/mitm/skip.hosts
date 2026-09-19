@@ -1,0 +1,21 @@
+# 明知「规则域名不在 MITM 清单里」但故意不补的域名。
+# 写在这里 = 已确认过、是有意为之，build.py 不再把它们列进报告的告警里。
+#
+# 判定依据见 extra.hosts 末尾的说明：要么解密代价过大（大范围通配 CDN），
+# 要么是已被淘汰的历史域名（musical.ly 时代的 .ly 域名），补了也是白补。
+
+*.byteimg.com
+*.rsscc.com
+*.jddebug.com
+*.ott.cibntv.net
+*.amemv.ly
+*.musical.com
+*.musical.ly
+*.snssdk.ly
+*.tiktokv.com
+*.tiktokv.ly
+u*.iqiyipic.com
+s*.zdmimg.com
+api-mifit-*.huami.com
+nnapp.cloudbae.cn
+itunes.apple.com

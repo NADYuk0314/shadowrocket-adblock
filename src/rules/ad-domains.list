@@ -1,0 +1,112 @@
+# [Rule] 段：域名级广告拦截
+#
+# 这部分不依赖 HTTPS 解密（MITM）即可生效，也不消耗内存去解析响应体，
+# 代价是只能按域名拦，拦不掉“同一个域名里混着内容和广告”的情况（那部分靠 [URL Rewrite]）。
+#
+# 注意：模块里的 [Rule] 只在 Shadowrocket「全局路由 = 配置」时生效；
+#      若常用「全局路由 = 代理」，请改用 NoAd 的 URL Rewrite 部分，或在配置的 [General] 里加
+#      always-reject-url-rewrite = true
+
+# ===== 一、全球广告交易平台 / 广告网络（纯投放域名，拦截风险极低）=====
+DOMAIN-SUFFIX,doubleclick.net,REJECT
+DOMAIN-SUFFIX,googleadservices.com,REJECT
+DOMAIN-SUFFIX,googlesyndication.com,REJECT
+DOMAIN,adservice.google.com,REJECT
+DOMAIN-SUFFIX,adsrvr.org,REJECT
+DOMAIN-SUFFIX,adnxs.com,REJECT
+DOMAIN-SUFFIX,casalemedia.com,REJECT
+DOMAIN-SUFFIX,criteo.com,REJECT
+DOMAIN-SUFFIX,criteo.net,REJECT
+DOMAIN-SUFFIX,taboola.com,REJECT
+DOMAIN-SUFFIX,outbrain.com,REJECT
+DOMAIN-SUFFIX,pubmatic.com,REJECT
+DOMAIN-SUFFIX,rubiconproject.com,REJECT
+DOMAIN-SUFFIX,openx.net,REJECT
+DOMAIN-SUFFIX,smartadserver.com,REJECT
+DOMAIN-SUFFIX,adform.net,REJECT
+DOMAIN-SUFFIX,33across.com,REJECT
+DOMAIN-SUFFIX,sharethrough.com,REJECT
+DOMAIN-SUFFIX,sovrn.com,REJECT
+DOMAIN-SUFFIX,indexexchange.com,REJECT
+DOMAIN-SUFFIX,teads.tv,REJECT
+DOMAIN-SUFFIX,tremorhub.com,REJECT
+DOMAIN-SUFFIX,districtm.io,REJECT
+DOMAIN-SUFFIX,loopme.me,REJECT
+DOMAIN-SUFFIX,mopub.com,REJECT
+DOMAIN-SUFFIX,amazon-adsystem.com,REJECT
+DOMAIN-SUFFIX,adsafeprotected.com,REJECT
+DOMAIN-SUFFIX,moatads.com,REJECT
+DOMAIN-SUFFIX,serving-sys.com,REJECT
+
+# ===== 二、移动端广告 SDK（激励视频 / 插屏 / 开屏）=====
+DOMAIN-SUFFIX,pangolin-sdk-toutiao.com,REJECT
+DOMAIN-SUFFIX,pglstatp-toutiao.com,REJECT
+DOMAIN-SUFFIX,pangolin-sdk-toutiao-b.com,REJECT
+DOMAIN-SUFFIX,gdt.qq.com,REJECT
+DOMAIN-SUFFIX,applovin.com,REJECT
+DOMAIN-SUFFIX,chartboost.com,REJECT
+DOMAIN-SUFFIX,chtbl.com,REJECT
+DOMAIN-SUFFIX,vungle.com,REJECT
+DOMAIN-SUFFIX,adcolony.com,REJECT
+DOMAIN-SUFFIX,ironsrc.com,REJECT
+DOMAIN-SUFFIX,supersonicads.com,REJECT
+DOMAIN-SUFFIX,startappservice.com,REJECT
+DOMAIN-SUFFIX,appnext.com,REJECT
+DOMAIN-SUFFIX,mintegral.com,REJECT
+DOMAIN-SUFFIX,unityads.unity3d.com,REJECT
+DOMAIN-SUFFIX,fyber.com,REJECT
+DOMAIN-SUFFIX,tapjoy.com,REJECT
+DOMAIN-SUFFIX,moloco.com,REJECT
+DOMAIN-SUFFIX,liftoff.io,REJECT
+DOMAIN-SUFFIX,digitalturbine.com,REJECT
+DOMAIN-SUFFIX,adjoe.io,REJECT
+DOMAIN-SUFFIX,adikteev.com,REJECT
+
+# ===== 三、国内广告 / 推广平台 =====
+DOMAIN-SUFFIX,alimama.com,REJECT
+DOMAIN-SUFFIX,alimama.cn,REJECT
+DOMAIN-SUFFIX,mmstat.com,REJECT
+DOMAIN-SUFFIX,tanx.com,REJECT
+DOMAIN,adash.m.taobao.com,REJECT
+DOMAIN,adashx.m.taobao.com,REJECT
+DOMAIN,adashbc.m.taobao.com,REJECT
+DOMAIN,adashxgc.m.taobao.com,REJECT
+DOMAIN,atanx.alicdn.com,REJECT
+DOMAIN,atanx2.alicdn.com,REJECT
+DOMAIN-SUFFIX,miaozhen.com,REJECT
+DOMAIN-SUFFIX,admaster.com.cn,REJECT
+DOMAIN-SUFFIX,adview.cn,REJECT
+DOMAIN-SUFFIX,adwo.com,REJECT
+DOMAIN-SUFFIX,youmi.net,REJECT
+DOMAIN-SUFFIX,domob.cn,REJECT
+DOMAIN-SUFFIX,adchina.com,REJECT
+DOMAIN-SUFFIX,mobads.baidu.com,REJECT
+DOMAIN-SUFFIX,pos.baidu.com,REJECT
+DOMAIN-SUFFIX,cpro.baidu.com,REJECT
+DOMAIN-SUFFIX,cbjs.baidu.com,REJECT
+DOMAIN-SUFFIX,ad.toutiao.com,REJECT
+DOMAIN-SUFFIX,ads.toutiao.com,REJECT
+DOMAIN-SUFFIX,oceanengine.com,REJECT
+DOMAIN-SUFFIX,iad.g.163.com,REJECT
+
+# ===== 四、可选：统计 / 归因 / 埋点（可能影响 App 的“安装来源”统计，默认关闭）=====
+# 需要更彻底的去广告（同时去掉行为追踪）时，把下面的 # 去掉即可。
+# 风险：个别 App 依赖这些域名做深链跳转或配置下发，开启后可能出现分享/唤起异常。
+#DOMAIN-SUFFIX,umeng.com,REJECT
+#DOMAIN-SUFFIX,umengcloud.com,REJECT
+#DOMAIN-SUFFIX,cnzz.com,REJECT
+#DOMAIN-SUFFIX,talkingdata.com,REJECT
+#DOMAIN-SUFFIX,talkingdata.net,REJECT
+#DOMAIN-SUFFIX,adjust.com,REJECT
+#DOMAIN-SUFFIX,appsflyer.com,REJECT
+#DOMAIN-SUFFIX,kochava.com,REJECT
+#DOMAIN-SUFFIX,tenjin.io,REJECT
+#DOMAIN-SUFFIX,l.qq.com,REJECT
+#DOMAIN-SUFFIX,pingjs.qq.com,REJECT
+#DOMAIN-SUFFIX,beacon.qq.com,REJECT
+
+# ===== 五、可选：订阅现成的超大规则集（默认关闭，内存吃紧 / iOS16 以下慎用）=====
+# blackmatrix7 的 Advertising 列表有几十万条域名，拦截最彻底，但会明显增加内存占用。
+#RULE-SET,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/Advertising/Advertising.list,REJECT
+#RULE-SET,https://raw.githubusercontent.com/app2smile/rules/master/rule/zhihu-ad.list,REJECT
+#RULE-SET,https://raw.githubusercontent.com/app2smile/rules/master/rule/tieba-ad.list,REJECT

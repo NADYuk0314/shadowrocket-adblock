@@ -1,0 +1,14 @@
+# 临时产物
+.pylibs/
+导入二维码-*.png
+*.tmp
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# macOS
+.DS_Store
+._*

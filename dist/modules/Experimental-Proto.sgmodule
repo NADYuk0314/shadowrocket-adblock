@@ -1,0 +1,21 @@
+#!name=NoAd · 协议级改写（实验性，出问题先删它）
+#!desc=gRPC/protobuf 响应改写：B站视频详情与动态、贴吧列表、Spotify、百度地图、网易云、YouTube。上游只保证 Surge/Loon/QX，小火箭上可能导致接口异常，仅推荐给愿意折腾的人。（构建 2026-09-19）
+#!author=规则聚合自 blackmatrix7 / app2smile / deezertidal / ddgksf2013 / Maasea / lalifeier 等开源项目，由 NoAd 构建脚本合并整理
+#!homepage=https://github.com/blackmatrix7/ios_rule_script
+# 构建日期：2026-09-19　由 build.py 自动生成，请勿直接编辑
+# 使用前请在 Shadowrocket 中开启 HTTPS 解密（安装并信任 CA 证书）
+
+[Script]
+bilibili = type=http-response,pattern=^https:\/\/(grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.app\.(viewunite\.v1\.View\/View|dynamic\.v2\.Dynamic\/DynAll)$,requires-body=1,binary-body-mode=1,max-size=0,script-path=https://raw.githubusercontent.com/app2smile/rules/master/js/bilibili-proto.js,script-update-interval=0
+netease = type=http-response, pattern=^https:\/\/interface3?\.music\.163\.com\/eapi\/(batch|v2\/resource\/comment\/floor\/), script-path=https://raw.githubusercontent.com/Keywos/rule/main/script/wy/js/wyres.js, requires-body=true, binary-body-mode=true, max-size=-1, timeout=60
+netease = type=http-response, pattern=^https:\/\/interface3?\.music\.163\.com\/eapi\/(homepage\/block\/page|link\/page\/rcmd\/(block\/resource\/multi\/refresh|resource\/show)), script-path=https://raw.githubusercontent.com/Keywos/rule/main/script/wy/js/wyres.js, requires-body=true, binary-body-mode=true, max-size=-1, timeout=60
+netease = type=http-response, pattern=^https:\/\/interface3?\.music\.163\.com\/eapi\/link\/page\/discovery\/resource\/show, script-path=https://raw.githubusercontent.com/Keywos/rule/main/script/wy/js/wyres.js, requires-body=true, binary-body-mode=true, max-size=-1, timeout=60
+netease = type=http-response, pattern=^https:\/\/interface3?\.music\.163\.com\/eapi\/link\/position\/show\/resource, script-path=https://raw.githubusercontent.com/Keywos/rule/main/script/wy/js/wyres.js, requires-body=true, binary-body-mode=true, max-size=-1, timeout=60
+netease = type=http-response, pattern=^https:\/\/interface3?\.music\.163\.com\/eapi\/user\/follow\/users\/mixed\/, script-path=https://raw.githubusercontent.com/Keywos/rule/main/script/wy/js/wyres.js, requires-body=true, binary-body-mode=true, max-size=-1, timeout=60
+spotify = type=http-response,pattern=^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/(bootstrap\/v1\/bootstrap|user-customization-service\/v1\/customize)$,requires-body=1,binary-body-mode=1,max-size=0,script-path=https://raw.githubusercontent.com/app2smile/rules/master/js/spotify-proto.js,script-update-interval=0
+tieba = type=http-response,pattern=^https?:\/\/(tiebac|c\.tieba)\.baidu\.com\/c\/(b\/ad\/adBid|f\/(frs\/(page|threadlist|generalTabList)|ad\/getFeedAd|pb\/page|excellent\/personalized))\?cmd,requires-body=1,binary-body-mode=1,max-size=-1,script-path=https://raw.githubusercontent.com/app2smile/rules/master/js/tieba-proto.js
+baidumap = type=http-response,pattern=^https:\/\/newclient\.map\.baidu\.com\/client\/phpui2\/\?qt=ads,requires-body=1,binary-body-mode=1,max-size=0,script-path=https://raw.githubusercontent.com/app2smile/rules/master/js/baidumap.js
+youtube = type=http-response,pattern=^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/(browse|next),requires-body=1,binary-body-mode=1,max-size=2097152,script-path=https://raw.githubusercontent.com/app2smile/rules/master/js/youtube.js
+
+[MITM]
+hostname = %APPEND% grpc.biliapi.net, app.bilibili.com, interface*.music.163.com, spclient.wg.spotify.com, *spclient.spotify.com, tiebac.baidu.com, c.tieba.baidu.com, newclient.map.baidu.com, youtubei.googleapis.com
