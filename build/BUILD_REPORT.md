@@ -1,6 +1,6 @@
 # 构建报告
 
-构建时间：2026-09-19 20:56:23
+构建时间：2026-09-19 21:02:49
 
 ## NoAd.sgmodule
 
@@ -205,3 +205,15 @@
 </details>
 
 去重合并：0 条
+
+## 其它客户端格式
+
+```
+导出 dist/clash/NoAd-AdDomains.yaml                    2134 bytes
+  导出 dist/clash/NoAd-AdDomains-classical.yaml          2772 bytes
+  导出 dist/sing-box/NoAd-ruleset.json                   2048 bytes
+  导出 dist/loon/NoAd-Plus.plugin                       65722 bytes
+  导出 dist/loon/Bilibili.plugin                         1633 bytes
+  导出 dist/quantumultx/NoAd-Plus.conf                  56132 bytes
+  导出 dist/quantumultx/Bilibili.conf                    1286 bytes
+```

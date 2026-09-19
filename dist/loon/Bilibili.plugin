@@ -1,0 +1,25 @@
+#!name=NoAd · 哔哩哔哩
+#!desc=B站开屏、首页推荐流、搜索默认词、相关推荐、漫画广告。
+#!openUrl=https://github.com/NADYuk0314/shadowrocket-adblock
+#!author=规则聚合自 blackmatrix7 / app2smile / deezertidal / ddgksf2013 / lalifeier，由 NoAd 构建脚本整理
+#!tag=去广告,NoAd
+# 由 tools/export_clients.py 从 Shadowrocket 模块转换，未在真机验证，有问题请到仓库提 issue。
+# 按风险分层原则：协议级（binary-body-mode）脚本未导出；头部重写（Header Rewrite）未导出。
+
+[Mitm]
+hostname = app.bilibili.com, api.bilibili.com, api.vc.bilibili.com, manga.bilibili.com
+
+[Rewrite]
+^https?:\/\/app\.bilibili\.com\/x\/resource\/top\/activity reject-dict
+^https://app.bilibili.com/x/v2/splash/show reject-dict
+^https://app.bilibili.com/x/v2/search/defaultwords reject-dict
+^https?:\/\/api\.bilibili\.com\/x\/vip\/ads\/material\/report reject-dict
+^https://api.bilibili.com/pgc/season/player/cards reject-dict
+^https?:\/\/api\.vc\.bilibili\.com\/search_svr\/v\d\/Search\/recommend_words reject
+^https?:\/\/api\.vc\.bilibili\.com\/topic_svr\/v1\/topic_svr reject-dict
+^https?:\/\/api\.bilibili\.com\/pgc\/season\/app\/related\/recommend\? reject-dict
+^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/(Flash|ListFlash) reject-dict
+^https?:\/\/app\.bilibili\.com\/x\/v2\/splash\/ reject-dict
+
+[Script]
+http-response ^https:\/\/app\.bilibili\.com\/x\/(v2\/(splash\/(list|show)|feed\/index\?)|resource\/show\/tab\/v2) script-path=https://raw.githubusercontent.com/app2smile/rules/master/js/bilibili-json.js, requires-body=true, timeout=10, tag=bilibili

@@ -23,6 +23,8 @@
 
 主模块（`NoAd` / `NoAd-Plus`）**任选一个**；`modules/` 下的三个按需叠加。同类模块不要重复装。
 
+> 用 Clash Mi / Stash / sing-box / Loon / QuantumultX 的话看 [第十节](#十其它客户端clash-mi--mihomo--stash--sing-box--loon--quantumultx)，其中 Clash 系**只能做域名级拦截**（它不支持 URL 重写与 MITM）。
+
 ### ⚠️ 为什么 B站 / YouTube 要单独一个模块，还有那个"实验模块"
 
 因为去广告有两类完全不同的做法：
@@ -206,10 +208,14 @@ python3 tools/verify.py         # 校验产物
 
 ```
 shadowrocket-adblock/
-├── dist/                       # 成品（导入小火箭的就是这里）
-│   ├── NoAd.sgmodule
+├── dist/                       # 成品
+│   ├── NoAd.sgmodule           #   Shadowrocket / Surge
 │   ├── NoAd-Plus.sgmodule
-│   └── modules/YouTube.sgmodule
+│   ├── modules/                #   B站 / YouTube / 协议级改写（实验性）
+│   ├── clash/                  #   Clash Mi / Mihomo / Stash rule-provider
+│   ├── sing-box/               #   sing-box rule-set
+│   ├── loon/                   #   Loon 插件
+│   └── quantumultx/            #   QuantumultX 配置
 ├── src/                        # 规则源
 │   ├── rewrite/                # 按分类整理的重写规则（由 extract.py 生成）
 │   ├── scripts/                # 脚本规则（由 extract.py 生成）
@@ -222,7 +228,112 @@ shadowrocket-adblock/
 └── build/BUILD_REPORT.md       # 每次构建的完整改动清单
 ```
 
-## 十、来源与致谢
+## 十、其它客户端（Clash Mi / Mihomo / Stash / sing-box / Loon / QuantumultX）
+
+### 先说清楚能力边界
+
+去广告有两种手段，**不同客户端支持的程度完全不同**：
+
+| 客户端 | 域名级拦截 | URL 重写 | 脚本 / MITM | 能拿到什么 |
+| --- | --- | --- | --- | --- |
+| Shadowrocket | ✅ | ✅ | ✅ | 全部（584 条重写 + 76 条域名 + 61 条脚本） |
+| Surge | ✅ | ✅ | ✅ | 同上（`.sgmodule` 就是 Surge 原生格式，直接用 `dist/*.sgmodule`） |
+| Loon | ✅ | ✅ | ✅ | 同上（用 `dist/loon/*.plugin`） |
+| QuantumultX | ✅ | ✅ | ⚠️ API 不同 | 重写 + 域名过滤（**不含脚本**，脚本请用上游 QX 原生版本） |
+| **Clash Mi / Mihomo / Clash Verge** | ✅ | ❌ | ❌ | **只有 76 条域名级拦截** |
+| **Stash** | ✅ | ❌ | ❌ | 同上 |
+| **sing-box** | ✅ | ❌ | ❌ | 同上 |
+
+> **关键**：Clash 系（含 Clash Mi）**没有 URL 重写和 MITM 能力**，所以开屏广告、信息流推广这类需要改请求/改响应体的广告，
+> 在 Clash 上拦不掉 —— 不是我没导出，是这个客户端做不到。能做的就是域名级拦截（广告联盟、统计、追踪域名）。
+
+### Clash Mi / Mihomo / Clash Verge / Stash
+
+用 `behavior: domain` 的 rule-provider（`+.` 前缀 = 该域名及其子域）：
+
+```yaml
+rule-providers:
+  noad:
+    type: http
+    behavior: domain
+    format: yaml
+    url: "https://raw.githubusercontent.com/NADYuk0314/shadowrocket-adblock/main/dist/clash/NoAd-AdDomains.yaml"
+    path: ./ruleset/NoAd-AdDomains.yaml
+    interval: 86400            # 每天自动拉一次
+
+rules:
+  - RULE-SET,noad,REJECT
+  # ……你自己的其它规则
+```
+
+需要保留 `DOMAIN` / `DOMAIN-SUFFIX` 原始写法时，改用
+`dist/clash/NoAd-AdDomains-classical.yaml`，并把 `behavior` 换成 `classical`。
+
+**想要更彻底**：再叠加 blackmatrix7 的大列表（几十万条，内存占用会明显上升）：
+
+```yaml
+rule-providers:
+  advertising:                # 需要 Clash Mi / Clash Verge 支持 rule-provider
+    type: http
+    behavior: domain
+    format: yaml
+    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Advertising/Advertising_Domain.yaml"
+    path: ./ruleset/Advertising_Domain.yaml
+    interval: 86400
+rules:
+  - RULE-SET,noad,REJECT
+  - RULE-SET,advertising,REJECT
+```
+
+### sing-box
+
+```json
+{
+  "route": {
+    "rule_set": [
+      {
+        "type": "remote",
+        "tag": "noad",
+        "format": "source",
+        "url": "https://raw.githubusercontent.com/NADYuk0314/shadowrocket-adblock/main/dist/sing-box/NoAd-ruleset.json",
+        "update_interval": "24h"
+      }
+    ],
+    "rules": [
+      { "rule_set": "noad", "action": "reject" }
+    ]
+  }
+}
+```
+
+> sing-box 1.11 之前用 `"outbound": "block"` 代替 `"action": "reject"`。
+
+### Loon
+
+在 Loon 里：配置 → 插件 → 右上角 `+` → 粘贴地址。
+
+| 插件 | 地址 |
+| --- | --- |
+| NoAd Plus | `https://raw.githubusercontent.com/NADYuk0314/shadowrocket-adblock/main/dist/loon/NoAd-Plus.plugin` |
+| B站 | `https://raw.githubusercontent.com/NADYuk0314/shadowrocket-adblock/main/dist/loon/Bilibili.plugin` |
+
+按风险分层，协议级（`binary-body-mode`）脚本与头部重写没有导出；需要的话用 app2smile 官方的 Loon 插件。
+
+### QuantumultX
+
+把 `dist/quantumultx/NoAd-Plus.conf` 里的三个段落（`[rewrite_local]`、`[filter_local]`、`[mitm]`）
+合并进你的 QX 配置即可（也可以在「重写 → 引用」里按段引用）。
+
+> 注意：QX 的脚本 API 与 Surge 不同，本文件**不含脚本**；需要脚本型去广告请用
+> [app2smile/rules](https://github.com/app2smile/rules) 的 QX 原生版本。
+
+### 这些格式是怎么生成的
+
+`tools/export_clients.py` 从 `dist/` 里的 Shadowrocket 模块转换而来，由 `build.py` 自动调用，
+`tools/verify.py` 会校验每种格式的语法（rule-provider 条目、rule-set JSON、Loon 的 `[Rewrite]/[Script]/[Mitm]`、
+QX 的 `[rewrite_local]/[filter_local]/[mitm]`）。**未在真机验证过 Loon / QX**，有问题欢迎提 issue。
+
+## 十一、来源与致谢
 
 规则全部来自以下开源项目，模块只是把它们合并与纠错，版权归原作者：
 

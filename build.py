@@ -21,6 +21,7 @@ from __future__ import annotations
 import os
 import re
 import sys
+import subprocess
 import datetime
 import collections
 
@@ -735,6 +736,17 @@ def main() -> int:
         with open(path, "w", encoding="utf-8") as f:
             f.write(text)
 
+    # ---- 导出其它客户端格式（Clash / sing-box / Loon / QuantumultX）----
+    export_out = ""
+    exporter = os.path.join(ROOT, "tools", "export_clients.py")
+    if os.path.exists(exporter):
+        proc = subprocess.run([sys.executable, exporter], capture_output=True, text=True)
+        export_out = (proc.stdout or "").strip()
+        if proc.returncode != 0:
+            print(proc.stdout, proc.stderr)
+            print("!! 导出其它客户端格式失败")
+            return 1
+
     # ---- 报告 ----
     rep = ["# 构建报告", "", f"构建时间：{datetime.datetime.now():%Y-%m-%d %H:%M:%S}", ""]
     total_errors = 0
@@ -788,6 +800,14 @@ def main() -> int:
             rep += [f"- {x}" for x in ctx.warnings[:60]]
             rep.append("")
         rep.append(f"去重合并：{ctx.deduped} 条")
+        rep.append("")
+
+    if export_out:
+        rep.append("## 其它客户端格式")
+        rep.append("")
+        rep.append("```")
+        rep.append(export_out)
+        rep.append("```")
         rep.append("")
 
     with open(os.path.join(BUILD, "BUILD_REPORT.md"), "w", encoding="utf-8") as f:
