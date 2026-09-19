@@ -1,0 +1,96 @@
+name: 自动更新规则
+
+# 每天北京时间 09:00（UTC 01:00）自动抓取上游模块并重建；也可以在 Actions 页面点按钮手动触发
+on:
+  schedule:
+    - cron: '0 1 * * *'
+  workflow_dispatch:
+
+# 把重建结果推回仓库需要写权限；用仓库自带的 GITHUB_TOKEN 即可，不需要配置 PAT
+permissions:
+  contents: write
+
+concurrency:
+  group: rule-update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: 检出仓库
+        uses: actions/checkout@v4
+
+      - name: 准备 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: 抓取上游模块
+        run: bash tools/fetch_upstream.sh
+
+      - name: 抽取规则源
+        run: python3 tools/extract.py
+
+      - name: 构建模块（合并 / 纠错 / 去重 / MITM 交叉校验）
+        run: python3 build.py
+
+      - name: 校验产物
+        run: python3 tools/verify.py
+
+      - name: 顺带检查远程脚本地址是否还活着（失败不阻塞更新）
+        continue-on-error: true
+        run: python3 tools/verify.py --check-urls
+
+      - name: 判断是否有实质变化
+        id: diff
+        run: |
+          set -euo pipefail
+          git add -A
+          if git diff --cached --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "上游没有变化，无需提交。" >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          # 模块描述里的「（构建 YYYY-MM-DD）」和报告里的构建时间每次都会变，
+          # 把它们排除掉再看是否还有别的差异，避免每天产生一个无意义的空提交。
+          real=$(git diff --cached -U0 \
+            | grep -E '^[+-]' | grep -vE '^(\+\+\+|---)' \
+            | grep -vE '^[+-].*（构建 [0-9]{4}-[0-9]{2}-[0-9]{2}）' \
+            | grep -vE '^[+-].*构建时间：[0-9]' \
+            | grep -vE '^[+-].*# 构建日期：[0-9]' \
+            | wc -l)
+
+          if [ "$real" -eq 0 ]; then
+            git reset -q --hard
+            git clean -qfd
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "只有构建日期变化，跳过提交。" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            echo "### 本次变更" >> "$GITHUB_STEP_SUMMARY"
+            echo '```' >> "$GITHUB_STEP_SUMMARY"
+            git diff --cached --stat >> "$GITHUB_STEP_SUMMARY"
+            echo '```' >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: 提交并推送
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          set -euo pipefail
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -q -m "自动更新规则 $(date -u +%Y-%m-%d)"
+          git push origin HEAD:main
+
+      - name: 输出构建报告摘要
+        if: always()
+        run: |
+          {
+            echo "### 构建报告摘要"
+            echo '```'
+            head -40 build/BUILD_REPORT.md 2>/dev/null || echo "（没有生成报告）"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
