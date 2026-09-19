@@ -38,11 +38,37 @@ B站 那个 proto 脚本改的正好是 `bilibili.app.viewunite.v1.View/View`（
 
 ## 二、安装
 
-模块文件在本地，Shadowrocket 需要能通过 URL 访问到它。三种方式，任选一种：
+### A. 用在线地址（推荐，可自动更新）
 
-**A. 上传到自己的 Gist / 仓库（最省事）**
-把 `dist/NoAd.sgmodule` 的内容传到 Gist 或 GitHub，取 raw 地址，然后：
-Shadowrocket → 配置 → 模块 → 右上角 `➕` → 粘贴 raw 地址 → 下载。
+Shadowrocket → 配置 → 模块 → 右上角 `➕` → 粘贴下面的地址 → 下载。
+以后规则更新了，点模块里的「更新」即可，不用重新导入。
+
+| 模块 | 地址 |
+| --- | --- |
+| NoAd（纯规则版） | `https://raw.githubusercontent.com/NADYuk0314/shadowrocket-adblock/main/dist/NoAd.sgmodule` |
+| NoAd Plus（含文本脚本） | `https://raw.githubusercontent.com/NADYuk0314/shadowrocket-adblock/main/dist/NoAd-Plus.sgmodule` |
+| B站（可选） | `https://raw.githubusercontent.com/NADYuk0314/shadowrocket-adblock/main/dist/modules/Bilibili.sgmodule` |
+| YouTube（可选） | `https://raw.githubusercontent.com/NADYuk0314/shadowrocket-adblock/main/dist/modules/YouTube.sgmodule` |
+| 协议级改写（实验性） | `https://raw.githubusercontent.com/NADYuk0314/shadowrocket-adblock/main/dist/modules/Experimental-Proto.sgmodule` |
+
+> ⚠️ 国内直连 `raw.githubusercontent.com` 经常被墙，如果下载失败：先把小火箭切到「代理」模式或换个能通的节点再添加；
+> 实在不行用下面 B / C 两种方式。
+> ⚠️ 模块里的 [Rule] 只在「全局路由 = 配置」时生效，但**下载模块本身**不受这个限制。
+
+### B. 本地临时服务（不改动任何线上内容）
+
+```bash
+cd dist && python3 -m http.server 8000
+# 查本机内网 IP：ipconfig getifaddr en0
+```
+
+然后在小火箭里添加 `http://<你的电脑IP>:8000/NoAd.sgmodule`（手机和电脑要在同一个 Wi-Fi）。
+缺点是电脑关机后「更新模块」会失败；已下载的内容不受影响。
+
+### C. 复制内容新建本地模块
+
+Shadowrocket → 配置 → 模块 → 新建模块 → 把文件内容整段粘进去 → 保存。
+适合只想装一次、不想联外网的场景（Mac 上可以 `pbcopy < dist/NoAd-Plus.sgmodule` 走通用剪贴板粘贴）。
 
 **B. 用电脑在局域网里发一个临时 HTTP 服务**
 
